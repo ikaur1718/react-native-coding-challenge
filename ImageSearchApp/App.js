@@ -4,6 +4,7 @@ import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native'
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import Home from './container/home.js';
 import Images from './container/Images.js';
+import ImageDetails from './container/ImageDetails';
 
 
 
@@ -13,7 +14,11 @@ const AppNavigator = createStackNavigator({
   },
   Results: {
     screen: Images
+  }, 
+  ImageDetail: {
+    screen: ImageDetails
   },  
+ 
   
 }, {
   initialRouteName: 'Home',

@@ -21,7 +21,7 @@ export default class Images extends React.Component {
     this.state = {
       numberOfColumns: 2,
       text: 'Search Image',
-
+      image: '',
     }
     this.search = this.search.bind(this);
 
@@ -82,7 +82,7 @@ export default class Images extends React.Component {
               <Image source={{uri: image.webformatURL}} style={{width: 100, height: 100}}></Image>
 
             })} */}
-            <Image source={{uri: images[0].webformatURL}} style={{width: '40%', height: '40%'}}></Image>
+            <Image source={{uri: images[0].webformatURL}} style={{width: '40%', height: '40%'}} onPress={this.props.navigation.navigate('ImageDetail', {image:images[0]})}></Image>
 
           {/* </View> */}
           <Text>{JSON.stringify(images[0].imageHeight)}</Text>
