@@ -70,7 +70,8 @@ export default class Home extends React.Component {
         // </ImagesContext.Provider>
         // <Images images={this.state.images}/>
         <View>
-            {this.props.navigation.navigate('Results')}
+            {this.props.navigation.navigate('Results', {images: this.state.images})}
+            {/* {this.props.navigation.navigate('Results', {...this.state.images})} */}
           {/* <Text>{this.state.images[0].imageHeight}</Text>
           <Image source={this.state.images[0].previewURL}></Image> */}
         </View>

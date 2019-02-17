@@ -49,10 +49,18 @@ export default class Images extends React.Component {
     }
   }
 
+  _imageClicked = (item) => {
+    this.props.navigation.navigate('ImageDetail', {...item});
+  }
+
+
   // static contextType = ImagesContext; 
 
   render() {
+    const { navigation } = this.props;
+    const images = navigation.getParam('images', []);
     return (
+      
       <View>
           <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1, width: '50%'}}
@@ -65,7 +73,19 @@ export default class Images extends React.Component {
             title="Search"
             onPress={() => {this.search(this.state.text)}}
           />
-          <Image source={this.props.images}></Image>
+          {/* <FlatList>
+            data={this.props.images.hits}
+            renderItem={({item}) => <ListItem style={styles.listItem} imageClicked={this._imageClicked} item={item}/>} 
+          </FlatList> */}
+          {/* <View style={styles.container} onLayout={this._onLayout}>
+            {this.images.map((image) => {
+              <Image source={{uri: image.webformatURL}} style={{width: 100, height: 100}}></Image>
+
+            })} */}
+            <Image source={{uri: images[0].webformatURL}} style={{width: '40%', height: '40%'}}></Image>
+
+          {/* </View> */}
+          <Text>{JSON.stringify(images[0].imageHeight)}</Text>
         {/* {this.context.images.hits.length !== 0 ?
         (<View style={styles.container} onLayout={this._onLayout} >
           <FlatList>
@@ -80,11 +100,18 @@ export default class Images extends React.Component {
   }
 }
 
-// const HomeNavigator = createStackNavigator({
-//   Results: {
-//     screen: Images
-//   },
-
-// });
-
-// export default createAppContainer(HomeNavigator);
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  list: {
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+  },
+  listItem: {
+    margin: 5,
+    backgroundColor: '#CCC',
+  }
+});
