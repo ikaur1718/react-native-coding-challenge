@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
+// import HomeNavigator from './Images.js';
 
-import {createStackNavigator, createAppContainer} from 'react-navigation';
+// import {createStackNavigator, createAppContainer} from 'react-navigation';
+import Images from './Images.js';
 
 import { 
   Image,
@@ -9,56 +11,71 @@ import {
   Text,
   View,
   TextInput,
+  Button,
 } from 'react-native';
 
+// const ImagesContext = React.createContext('flowers');
+// const HomeContainer = createAppContainer(HomeNavigator);
 
 
-class Home extends React.Component {
+export default class Home extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       text: 'Search Image',
-      images: {}
+      images: []
     }
-
-    this.renderImages = this.renderImages.bind(this);
+    this.search = this.search.bind(this);
   }
 
   componentDidMount() {
-    axios.get('https://pixabay.com/api/?key=11621806-eee353325e4c7ff80bd98e608&q=yellow+flowers&image_type=photo')
-      .then((response) => {
-        this.setState({images: response.data});
-        console.log("Hello this is response", response);
-      })
-      .catch((err) => {
-        console.error("Error:", err)
-      });  
   }
 
-  renderImages() {
-    return <Text>
-      {this.state.images.totalHits};
-    </Text>
+  search(query) {
+    axios.get(`https://pixabay.com/api/?key=11621806-eee353325e4c7ff80bd98e608&q=${query}&image_type=photo`)
+    .then((response) => {
+      this.setState({images: response.data.hits});
+    })
+    .catch((err) => {
+      console.error("Error:", err)
+    });  
+  }
 
-  };
 
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Image source={require('../img/Pixabay-logo.png')} />
-        {this.renderImages()}
-        <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1, width: '50%'}}
-          placeholder={this.state.text}
-          onChangeText={(text) => this.setState({text})}
-          onBlur={this.search}
-          // value={this.state.text}
-        />
+    if(this.state.images.length === 0) {
+      return (
+        <View style={styles.container}>
+          <Image source={require('../img/Pixabay-logo.png')} />
+          <TextInput
+            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: '50%'}}
+            placeholder={this.state.text}
+            onChangeText={(text) => this.setState({text})}
+            // value={this.state.text}
+          />
+          <Button 
+            color="#841584" 
+            title="Search"
+            onPress={() => {this.search(this.state.text)}}
+          />
 
-      </View>
-    );
+        </View>
+      );
+    } else {
+      return (
+        // <ImagesContext.Provider value={this.state.images}>
+        //   <HomeNavigator/>
+        // </ImagesContext.Provider>
+        // <Images images={this.state.images}/>
+        <View>
+            {this.props.navigation.navigate('Results')}
+          {/* <Text>{this.state.images[0].imageHeight}</Text>
+          <Image source={this.state.images[0].previewURL}></Image> */}
+        </View>
+      );
+    }
   }
 };
 
@@ -81,10 +98,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: Home
-  }
-});
+// const AppNavigator = createStackNavigator({
+//   Home: {
+//     screen: Home
+//   },
+//   // Results: {
+//   //   screen: Images
+//   // },
 
-export default createAppContainer(AppNavigator);
+// });
+
+// export default createAppContainer(AppNavigator);

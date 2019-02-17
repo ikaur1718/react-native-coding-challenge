@@ -2,7 +2,23 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
-import AppNavigator from './container/home.js';
+import Home from './container/home.js';
+import Images from './container/Images.js';
+
+
+
+const AppNavigator = createStackNavigator({
+  Home: {
+    screen: Home
+  },
+  Results: {
+    screen: Images
+  },  
+  
+}, {
+  initialRouteName: 'Home',
+});
+
 
 
 const AppContainer = createAppContainer(AppNavigator);
