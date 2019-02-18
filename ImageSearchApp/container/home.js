@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import SearchForm from '../components/searchForm.js'
 import PIXABAY_API_KEY from '../config.js'
+const URL = `https://pixabay.com/api/`;
+
 
 
 import { 
@@ -19,16 +21,14 @@ export default class Home extends React.Component {
       text: 'Search Image',
       images: [],
       page: 1,
-      perPage: 10,
+      perPage: 15,
     }
     this.search = this.search.bind(this);
   }
 
-  componentDidMount() {
-  }
 
   search(query) {
-    axios.get(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${query}&image_type=photo&page=${this.state.page}&per_page=${this.state.perPage}`)
+    axios.get(`${URL}?key=${PIXABAY_API_KEY}&q=${query}&image_type=photo&page=${this.state.page}&per_page=${this.state.perPage}`)
     .then((response) => {
       this.setState({images: response.data.hits});
     })

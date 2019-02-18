@@ -1,7 +1,11 @@
 
 import React from 'react';
 import axios from 'axios';
-import ListItem from '../components/ListItem.js'
+import ListItem from '../components/ListItem.js';
+import SearchForm from '../components/searchForm.js'
+import PIXABAY_API_KEY from '../config.js';
+const URL = `https://pixabay.com/api/`;
+
 
 import { 
   Button, 
@@ -24,32 +28,30 @@ export default class Images extends React.Component {
       numberOfColumns: 2,
       text: 'Search Image',
       image: '',
+      page: 1,
+      perPage: 15,
     }
     this.search = this.search.bind(this);
     // this.imageClicked = this.imageClicked.bind(this);
   }
 
   search(query) {
-    axios.get(`https://pixabay.com/api/?key=11621806-eee353325e4c7ff80bd98e608&q=${query}&image_type=photo`)
+    axios.get(`${URL}?key=${PIXABAY_API_KEY}&q=${query}&image_type=photo&page=${this.state.page}&per_page=${this.state.perPage}`)
     .then((response) => {
-      this.setState({images: response.data});
+      this.setState({images: response.data.hits});
     })
     .catch((err) => {
       console.error("Error:", err)
     });  
   }
 
-
-  _onLayout = (e) => {
-    const {width} = Dimensions.get('window')
-    if (width <= 400) {
-      this.setState({numberOfColumns: 2});
-    } else if (width <= 568) {
-      this.setState({numberOfColumns: 3});
-    } else {
-      this.setState({numberOfColumns: 4});
-    }
+  onTextChange = (textArgs) => {
+    this.setState({
+      text: textArgs
+    })
   }
+
+
 
   _imageClicked = (item) => {
     this.props.navigation.navigate('ImageDetail', {...item});
@@ -80,23 +82,17 @@ export default class Images extends React.Component {
     const images = navigation.getParam('images', []);
     return (
       
-      <View>
-          <TextInput
-            style={{height: 40, borderColor: 'gray', borderWidth: 1, width: '50%'}}
-            placeholder={this.state.text}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
-          />
-          <Button 
-            color="#841584" 
-            title="Search"
-            onPress={() => {this.search(this.state.text)}}
-          />
-          {this._renderResults(images)}
-            {/* {images.map((image) => {
-              return (
-              <Image source={{uri: image.previewURL}} style={styles.imageSize} onPress={() => this.imageClicked(image)}></Image>
-            )})} */}
+      <View style={styles.container} >
+        <SearchForm style={{flexDirection: 'row'}}
+          onPressSearch={this.search} 
+          onTextChange={this.onTextChange}
+          value={this.state.text}
+        /> 
+        {this._renderResults(images)}
+          {/* {images.map((image) => {
+            return (
+            <Image source={{uri: image.previewURL}} style={styles.imageSize} onPress={() => this.imageClicked(image)}></Image>
+          )})} */}
       </View>
     );
   }
