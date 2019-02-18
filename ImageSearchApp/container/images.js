@@ -1,5 +1,7 @@
+
 import React from 'react';
 import axios from 'axios';
+import ListItem from '../components/ListItem.js'
 
 import { 
   Button, 
@@ -24,7 +26,7 @@ export default class Images extends React.Component {
       image: '',
     }
     this.search = this.search.bind(this);
-
+    // this.imageClicked = this.imageClicked.bind(this);
   }
 
   search(query) {
@@ -53,8 +55,25 @@ export default class Images extends React.Component {
     this.props.navigation.navigate('ImageDetail', {...item});
   }
 
+  _renderResults(images) {
+    const flatListKey = this.state.numberOfColumns <= 2 ? 'h' : 'v';
 
-  // static contextType = ImagesContext; 
+    return images.length !== 0 ?
+      (<FlatList
+        key={(flatListKey)}
+        contentContainerStyle={styles.list}
+        keyExtractor={item => item.id}
+        data={images}
+        onEndReachedThreshold={0.5}
+        numColumns={this.state.numberOfColumns}
+        renderItem={({item}) => <ListItem style={styles.listItem} imageClicked={this._imageClicked} item={item}/>} 
+      />) : (
+        <Text> 
+          No results found.
+        </Text>
+    );
+  }
+
 
   render() {
     const { navigation } = this.props;
@@ -73,28 +92,11 @@ export default class Images extends React.Component {
             title="Search"
             onPress={() => {this.search(this.state.text)}}
           />
-          {/* <FlatList>
-            data={this.props.images.hits}
-            renderItem={({item}) => <ListItem style={styles.listItem} imageClicked={this._imageClicked} item={item}/>} 
-          </FlatList> */}
-          {/* <View style={styles.container} onLayout={this._onLayout}>
-            {this.images.map((image) => {
-              <Image source={{uri: image.webformatURL}} style={{width: 100, height: 100}}></Image>
-
-            })} */}
-            <Image source={{uri: images[0].webformatURL}} style={{width: '40%', height: '40%'}} onPress={this.props.navigation.navigate('ImageDetail', {image:images[0]})}></Image>
-
-          {/* </View> */}
-          <Text>{JSON.stringify(images[0].imageHeight)}</Text>
-        {/* {this.context.images.hits.length !== 0 ?
-        (<View style={styles.container} onLayout={this._onLayout} >
-          <FlatList>
-            data={this.context.images.hits}
-          </FlatList>
-        </View>)
-          : (<Text> 
-            No results found.
-          </Text>)} */}
+          {this._renderResults(images)}
+            {/* {images.map((image) => {
+              return (
+              <Image source={{uri: image.previewURL}} style={styles.imageSize} onPress={() => this.imageClicked(image)}></Image>
+            )})} */}
       </View>
     );
   }
@@ -113,5 +115,12 @@ const styles = StyleSheet.create({
   listItem: {
     margin: 5,
     backgroundColor: '#CCC',
-  }
+  },
+  imageSize: {
+    width: 100,
+    height: 100,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+  },
 });
+

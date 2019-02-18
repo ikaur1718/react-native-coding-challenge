@@ -1,28 +1,20 @@
-import React from 'react';
-import {  
-  TextInput, 
-  Button,
-  View, 
+import React, {PureComponent} from 'react';
+import {
+  Image,  
+  TouchableHighlight,
 } from 'react-native';
 
-export default class SearchForm extends React.Component {
+export default class ListItem extends PureComponent {
   render() {
-    return(
-      <View style={this.props.style}> 
-        <TextInput
-          style={{height: 40}}
-          placeholder="Type your keywords here..."
-          onChangeText={this.props.onTextChange}
-          value={this.props.textValue}
-        />
-
-        <Button 
-          color="#841584" 
-          title="Search"
-          disabled={this.props.searchButtonDisabled}
-          onPress={this.props.onPressSearch}
-        />
-      </View>
-    );
+    return (  
+      <TouchableHighlight 
+        onPress={this.props.imageClicked.bind(null, this.props.item)}  
+        style={this.props.style}
+      >
+        <Image 
+          source={{uri: this.props.item.previewURL}} 
+          style={{width: this.props.item.previewWidth, height: this.props.item.previewHeight}} 
+        /> 
+      </TouchableHighlight>);
   }
 }

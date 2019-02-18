@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import SearchForm from '../components/searchForm.js'
+import PIXABAY_API_KEY from '../config.js'
 // import HomeNavigator from './Images.js';
 
 // import {createStackNavigator, createAppContainer} from 'react-navigation';
@@ -25,7 +26,9 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       text: 'Search Image',
-      images: []
+      images: [],
+      page: 1,
+      perPage: 10,
     }
     this.search = this.search.bind(this);
   }
@@ -34,7 +37,7 @@ export default class Home extends React.Component {
   }
 
   search(query) {
-    axios.get(`https://pixabay.com/api/?key=11621806-eee353325e4c7ff80bd98e608&q=${query}&image_type=photo`)
+    axios.get(`https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${query}&image_type=photo&page=${this.state.page}&per_page=${this.state.perPage}`)
     .then((response) => {
       this.setState({images: response.data.hits});
     })
