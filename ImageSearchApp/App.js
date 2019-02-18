@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import Home from './container/home.js';
 import Images from './container/Images.js';

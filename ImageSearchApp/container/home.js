@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import SearchForm from '../components/searchForm.js'
 // import HomeNavigator from './Images.js';
 
 // import {createStackNavigator, createAppContainer} from 'react-navigation';
@@ -42,6 +43,12 @@ export default class Home extends React.Component {
     });  
   }
 
+  onTextChange = (textArgs) => {
+    this.setState({
+      text: textArgs
+    })
+  }
+
 
 
   render() {
@@ -49,7 +56,13 @@ export default class Home extends React.Component {
       return (
         <View style={styles.container}>
           <Image source={require('../img/Pixabay-logo.png')} />
-          <TextInput
+          <SearchForm 
+            onPressSearch={this.search} 
+            onTextChange={this.onTextChange} 
+            // searchButtonDisabled={this.props.searchForm.searchButtonDisabled} 
+            // textValue={this.props.searchForm.text}
+          />
+          {/* <TextInput
             style={{height: 40, borderColor: 'gray', borderWidth: 1, width: '50%'}}
             placeholder={this.state.text}
             onChangeText={(text) => this.setState({text})}
@@ -59,7 +72,7 @@ export default class Home extends React.Component {
             color="#841584" 
             title="Search"
             onPress={() => {this.search(this.state.text)}}
-          />
+          /> */}
 
         </View>
       );
@@ -99,14 +112,3 @@ const styles = StyleSheet.create({
   },
 });
 
-// const AppNavigator = createStackNavigator({
-//   Home: {
-//     screen: Home
-//   },
-//   // Results: {
-//   //   screen: Images
-//   // },
-
-// });
-
-// export default createAppContainer(AppNavigator);
