@@ -85,7 +85,7 @@ export default class Images extends React.Component {
             style={{height: 40, borderColor: 'gray', borderWidth: 1, width: '50%'}}
             placeholder={this.state.text}
             onChangeText={(text) => this.setState({text})}
-            // value={this.state.text}
+            value={this.state.text}
           />
           <Button 
             color="#841584" 
