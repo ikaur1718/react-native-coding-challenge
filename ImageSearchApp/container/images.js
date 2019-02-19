@@ -83,11 +83,9 @@ export default class Images extends React.Component {
     return (
       
       <View style={styles.container} >
-        <SearchForm style={{flexDirection: 'row'}}
-          onPressSearch={this.search} 
-          onTextChange={this.onTextChange}
-          value={this.state.text}
-        /> 
+        <View style={{flexDirection: 'row'}}>
+          <Text>Your Search Results</Text>
+        </View>
         {this._renderResults(images)}
           {/* {images.map((image) => {
             return (

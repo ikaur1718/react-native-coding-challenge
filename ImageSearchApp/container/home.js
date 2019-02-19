@@ -44,7 +44,20 @@ export default class Home extends React.Component {
   }
 
   render() {
-    if(this.state.images.length === 0) {
+    const isImages = this.state.images;
+    const {params} = this.props.navigation.state;
+    let navigation;
+    if(isImages.length > 0) {
+      navigation = this.props.navigation.navigate('Results', {images: this.state.images})
+
+    } 
+    // if(params) {
+    //   this.setState({
+    //     images: params.images,
+    //     text:'',
+    //   })
+    // }
+    // if(this.state.images.length === 0) {
       return (
         <View style={styles.container}>
           <Image source={require('../img/Pixabay-logo.png')} />
@@ -52,16 +65,10 @@ export default class Home extends React.Component {
             onPressSearch={this.search} 
             onTextChange={this.onTextChange} 
           />
+          {navigation}
         </View>
       );
-    } else {
-      return (
-        <View>
-            {this.props.navigation.navigate('Results', {images: this.state.images})}
-        </View>
-      );
-    }
-  }
+    }  
 };
 
 const styles = StyleSheet.create({

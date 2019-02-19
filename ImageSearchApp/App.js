@@ -5,7 +5,7 @@ import Home from './container/home.js';
 import Images from './container/Images.js';
 import ImageDetails from './container/ImageDetails';
 
-
+const GlobalContext = React.createContext({images: []});
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -27,11 +27,40 @@ const AppNavigator = createStackNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);
 
+class GlobalContextProvider extends React.Component {
+  state = {
+    images: [],
+  }
+
+  render () {
+    return (
+      <GlobalContext.Provider
+        value={{
+          ...this.state,
+        }}
+      >
+        {this.props.children}
+      </GlobalContext.Provider>
+    )
+  }
+}
+
+// create the consumer as higher order component
+const withGlobalContext = ChildComponent => props => (
+  <GlobalContext.Consumer>
+    {
+      context => <ChildComponent {...props} global={context}  />
+    }
+  </GlobalContext.Consumer>
+);
+
 export default class App extends Component {
 
   render() {
     return (
-      <AppContainer/>
+      <GlobalContextProvider>
+        <AppContainer/>
+      </GlobalContextProvider>
     );
   }
 }
