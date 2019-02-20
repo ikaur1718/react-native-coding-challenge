@@ -26,6 +26,12 @@ export default class Home extends React.Component {
     this.search = this.search.bind(this);
   }
 
+  // getDerivedStateFromProps(params) {
+  //   this.setState({
+  //     images: params.images,
+  //     text:'',
+  //   })
+  // }
 
   search(query) {
     axios.get(`${URL}?key=${PIXABAY_API_KEY}&q=${query}&image_type=photo&page=${this.state.page}&per_page=${this.state.perPage}`)
@@ -57,6 +63,7 @@ export default class Home extends React.Component {
     //     text:'',
     //   })
     // }
+    
     // if(this.state.images.length === 0) {
       return (
         <View style={styles.container}>
