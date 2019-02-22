@@ -2,9 +2,10 @@
 import React from 'react';
 import axios from 'axios';
 import ListItem from '../components/ListItem.js';
-import SearchForm from '../components/searchForm.js'
 import PIXABAY_API_KEY from '../config.js';
 const URL = `https://pixabay.com/api/`;
+
+import Consumer from './home';
 
 
 import { 
@@ -18,7 +19,6 @@ import {
   TextInput
 } from 'react-native';
 
-// import {createStackNavigator, createAppContainer} from 'react-navigation';
 
 
 export default class Images extends React.Component {
@@ -26,31 +26,10 @@ export default class Images extends React.Component {
     super(props);
     this.state = {
       numberOfColumns: 2,
-      text: 'Search Image',
-      image: '',
       page: 1,
       perPage: 15,
     }
-    this.search = this.search.bind(this);
-    // this.imageClicked = this.imageClicked.bind(this);
   }
-
-  search(query) {
-    axios.get(`${URL}?key=${PIXABAY_API_KEY}&q=${query}&image_type=photo&page=${this.state.page}&per_page=${this.state.perPage}`)
-    .then((response) => {
-      this.setState({images: response.data.hits});
-    })
-    .catch((err) => {
-      console.error("Error:", err)
-    });  
-  }
-
-  onTextChange = (textArgs) => {
-    this.setState({
-      text: textArgs
-    })
-  }
-
 
 
   _imageClicked = (item) => {
@@ -81,17 +60,17 @@ export default class Images extends React.Component {
     const { navigation } = this.props;
     const images = navigation.getParam('images', []);
     return (
-      
-      <View style={styles.container} >
-        <View style={{flexDirection: 'row'}}>
-          <Text>Your Search Results</Text>
+      // <Consumer>{({handleChange, data}) => (
+        <View style={styles.container} >
+          <View style={{flexDirection: 'row'}}>
+            <Text>Your Search Results</Text>
+          </View>
+            {/* {this._renderResults(data.images)} */}
+
+            {this._renderResults(images)}
         </View>
-        {this._renderResults(images)}
-          {/* {images.map((image) => {
-            return (
-            <Image source={{uri: image.previewURL}} style={styles.imageSize} onPress={() => this.imageClicked(image)}></Image>
-          )})} */}
-      </View>
+      // )}
+      // </Consumer>
     );
   }
 }

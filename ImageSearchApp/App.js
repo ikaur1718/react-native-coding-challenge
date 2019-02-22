@@ -36,7 +36,7 @@ class GlobalContextProvider extends React.Component {
     return (
       <GlobalContext.Provider
         value={{
-          ...this.state,
+          images: this.state.images,
         }}
       >
         {this.props.children}
@@ -45,14 +45,15 @@ class GlobalContextProvider extends React.Component {
   }
 }
 
+const GlobalContextConsumer = GlobalContext.Consumer;
 // create the consumer as higher order component
-const withGlobalContext = ChildComponent => props => (
-  <GlobalContext.Consumer>
-    {
-      context => <ChildComponent {...props} global={context}  />
-    }
-  </GlobalContext.Consumer>
-);
+// const withGlobalContext = ChildComponent => props => (
+//   <GlobalContext.Consumer>
+//     {
+//       context => <ChildComponent {...props} global={context}  />
+//     }
+//   </GlobalContext.Consumer>
+// );
 
 export default class App extends Component {
 
