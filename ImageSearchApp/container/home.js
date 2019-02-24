@@ -2,20 +2,16 @@ import React from 'react';
 import axios from 'axios';
 import SearchForm from '../components/searchForm.js';
 import PIXABAY_API_KEY from '../config.js';
+import Context from '../components/GlobalContextProvider.js';
 // const Context = React.createContext();
-const {Provider, Consumer} = React.createContext();
+// const {Provider, Consumer} = React.createContext();
 const URL = `https://pixabay.com/api/`;
-
-
 
 import { 
   Image,
   StyleSheet, 
   View,
 } from 'react-native';
-
-
-
 
 export default class Home extends React.Component {
 
@@ -42,14 +38,17 @@ export default class Home extends React.Component {
   }
 
   handleContextChange = (images) => {
+    // console.log()
+    // handleChange(images);
     this.setState({
       images
+    }, () => {
+        if(this.state.images.length > 0) {
+          this.props.navigation.navigate('Results', {images: this.state.images})
+          // this.props.navigation.navigate('Results');
+        } 
+
     });
-    const isImages = this.state.images;
-    if(isImages.length > 0) {
-      this.props.navigation.navigate('Results', {images: this.state.images})
-      // this.props.navigation.navigate('Results');
-    } 
 
   }
 
@@ -62,21 +61,23 @@ export default class Home extends React.Component {
 
   render() {
 
-    const contextValue = {
-      data: this.state.images,
-      handleChange: this.handleContextChange
-    }
+    // const contextValue = {
+    //   data: this.state.images,
+    //   handleChange: this.handleContextChange
+    // }
       return (
-        <Provider value={contextValue}>
+        <Context.Consumer >
+          {({data, handleChange}) => (
 
-          <View style={styles.container}>
-            <Image source={require('../img/Pixabay-logo.png')} />
-            <SearchForm 
-              onPressSearch={this.search} 
-              onTextChange={this.onTextChange} 
-            />
-          </View>
-        </Provider>
+            <View style={styles.container}>
+              <Image source={require('../img/Pixabay-logo.png')} />
+              <SearchForm 
+                onPressSearch={this.search} 
+                onTextChange={this.onTextChange} 
+              />
+            </View>
+          )}
+        </Context.Consumer>
       );
     }  
 };

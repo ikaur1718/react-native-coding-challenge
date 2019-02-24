@@ -4,8 +4,12 @@ import {createStackNavigator, createAppContainer} from 'react-navigation';
 import Home from './container/home.js';
 import Images from './container/Images.js';
 import ImageDetails from './container/ImageDetails';
+import Context from './components/GlobalContextProvider';
 
-const GlobalContext = React.createContext({images: []});
+// const GlobalContext = React.createContext({
+//   data:[],
+//   handleChange: () => {}
+// });
 
 const AppNavigator = createStackNavigator({
   Home: {
@@ -27,25 +31,26 @@ const AppNavigator = createStackNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);
 
-class GlobalContextProvider extends React.Component {
-  state = {
-    images: [],
-  }
+// class GlobalContextProvider extends React.Component {
+//   state = {
+//     images: [],
+//     handleChange:() => {}
+//   }
 
-  render () {
-    return (
-      <GlobalContext.Provider
-        value={{
-          images: this.state.images,
-        }}
-      >
-        {this.props.children}
-      </GlobalContext.Provider>
-    )
-  }
-}
+//   render () {
+//     return (
+//       <GlobalContext.Provider
+//         value={{
+//           images: this.state.images,
+//         }}
+//       >
+//         {this.props.children}
+//       </GlobalContext.Provider>
+//     )
+//   }
+// }
 
-const GlobalContextConsumer = GlobalContext.Consumer;
+//  const GlobalContextConsumer = GlobalContext.Consumer;
 // create the consumer as higher order component
 // const withGlobalContext = ChildComponent => props => (
 //   <GlobalContext.Consumer>
@@ -57,11 +62,32 @@ const GlobalContextConsumer = GlobalContext.Consumer;
 
 export default class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      images: [],
+    }
+    this.handleContextChange = this.handleContextChange.bind(this);
+  }
+
+  handleContextChange(images) {
+    this.setState({
+      images
+    })
+  }
+
   render() {
+    const contextValue = {
+      data: this.state.images,
+      handleChange: this.handleContextChange
+    }
+
+  
     return (
-      <GlobalContextProvider>
+      <Context.Provider value={contextValue}>
+
         <AppContainer/>
-      </GlobalContextProvider>
+      </Context.Provider>
     );
   }
 }

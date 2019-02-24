@@ -1,7 +1,12 @@
-// import React from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 
-export const {Consumer, Provider} = React.createContext();
+
+export default Context = React.createContext({
+  data:[],
+  handleChange: () => {}
+});
+// const GlobalContext = React.createContext({images:[]});
 
 
 // export class GlobalContextProvider extends React.Component {

@@ -2,10 +2,11 @@
 import React from 'react';
 import axios from 'axios';
 import ListItem from '../components/ListItem.js';
+import Context from '../components/GlobalContextProvider.js';
 import PIXABAY_API_KEY from '../config.js';
 const URL = `https://pixabay.com/api/`;
 
-import Consumer from './home';
+// import Consumer from './home';
 
 
 import { 
@@ -60,17 +61,17 @@ export default class Images extends React.Component {
     const { navigation } = this.props;
     const images = navigation.getParam('images', []);
     return (
-      // <Consumer>{({handleChange, data}) => (
+      <Context.Consumer>{({handleChange, data}) => (
         <View style={styles.container} >
           <View style={{flexDirection: 'row'}}>
             <Text>Your Search Results</Text>
           </View>
-            {/* {this._renderResults(data.images)} */}
+            {/* {this._renderResults(data)} */}
 
             {this._renderResults(images)}
         </View>
-      // )}
-      // </Consumer>
+      )}
+      </Context.Consumer>
     );
   }
 }
